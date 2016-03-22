@@ -1,3 +1,8 @@
+
+--maikerumine added slabs and stairs
+--20160321
+--for extreme survival game
+
 local colours = {
 	{"black",      "Black",      "#000000b0"},
 	{"blue",       "Blue",       "#015dbb70"},
@@ -11,7 +16,7 @@ local colours = {
 	{"orange",     "Orange",     "#ff840170"},
 	{"pink",       "Pink",       "#ff65b570"},
 	{"red",        "Red",        "#ff000070"},
-	{"violet",     "Violet",     "#2000c970"},
+	{"violet",     "Violet",     "#ea05ff70"},
 	{"white",      "White",      "#abababc0"},
 	{"yellow",     "Yellow",     "#e3ff0070"},
 }
@@ -24,7 +29,7 @@ minetest.register_node("cblocks:wood_" .. colours[i][1], {
 	description = colours[i][2] .. " Wooden Planks",
 	tiles = {"default_wood.png^[colorize:" .. colours[i][3]},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, wood = 1,not_in_craft_guide = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -41,7 +46,7 @@ minetest.register_node("cblocks:stonebrick_" .. colours[i][1], {
 	description = colours[i][2] .. " Stone Brick",
 	tiles = {"default_stone_brick.png^[colorize:" .. colours[i][3]},
 	is_ground_content = false,
-	groups = {cracky = 2, stone = 1},
+	groups = {cracky = 2, stone = 1,not_in_craft_guide = 1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -52,25 +57,24 @@ minetest.register_craft({
 	}
 })
 
--- glass
+--LET US REGISTER STAIRS!
+--maikerumine 20160321
 
-minetest.register_node( "cblocks:glass_" .. colours[i][1], {
-	description = colours[i][2] .. " Glass",
-	tiles = {"cblocks.png^[colorize:" .. colours[i][3]},
-	drawtype = "glasslike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	use_texture_alpha = true,
-	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
-	sounds = default.node_sound_glass_defaults(),
-})
+--wood
+stairs.register_stair_and_slab("wood_" .. colours[i][1], "cblocks:wood_" .. colours[i][1],
+		{snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		{"default_wood.png^[colorize:" .. colours[i][3]},
+		"Wooden Stair",
+		"Wooden Slab",
+		default.node_sound_wood_defaults())
 
-minetest.register_craft({
-	output = "cblocks:glass_".. colours[i][1] .. " 2",
-	recipe = {
-		{"default:glass","default:glass", "dye:" .. colours[i][1]},
-	}
-})
+
+--stonebrick
+stairs.register_stair_and_slab("stonebrick_" .. colours[i][1], "cblocks:stonebrick_" .. colours[i][1],
+		{cracky = 3},
+		{"default_stone_brick.png^[colorize:" .. colours[i][3]},
+		"Stone Brick Stair",
+		"Stone Brick Slab",
+		default.node_sound_stone_defaults())
 
 end
